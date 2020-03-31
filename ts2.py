@@ -28,7 +28,7 @@ def topServer():
     # Creating socket and making all the necessary connections.
 
     topSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print("top Socket has been created.")
+    print("top Socket 2 has been created.")
     portBinding = ('', tsPORT)
     topSocket.bind(portBinding)
     topSocket.listen(5)

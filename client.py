@@ -39,7 +39,7 @@ def client():
         lsResponse = clientSocket.recv(1024).decode('utf-8')
         print("The response from the DNS, if any, is: " + lsResponse)
 
-        if lsResponse == "":
+        if lsResponse == "": # if not lsResponse:
             dataStore.append(originalLine + " - Error:HOST NOT FOUND")
             continue
         

@@ -7,3 +7,10 @@
 4. I feel there was a lot of time gap between the last project and this project because of which I feel I kinda forgot how I had implemented the code base. So one major challenge was to go through the code base again and try understand what it was previouslt doing and what changes to it could satisfy the requirements of Project - 2.
 
 5. A little bit more of Python and how the DNS Lookup work.
+
+
+The programs must work with the following command lines:
+python ts1.py ts1ListenPort
+python ts2.py ts2ListenPort
+python ls.py lsListenPort ts1Hostname ts1ListenPort ts2Hostname ts2ListenPort
+python client.py lsHostname lsListenPort
