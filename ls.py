@@ -43,8 +43,8 @@ def loadBalancer():
     lsSocket.bind(lsBinding)
     lsSocket.listen(5)
 
-    ts1Socket.settimeout(5)
-    ts2Socket.settimeout(5)
+    ts1Socket.settimeout(1)
+    ts2Socket.settimeout(1)
 
     clientSocket, address = lsSocket.accept()
     print('Got a connection request from: ' , address)

@@ -2,3 +2,5 @@ www.princeton.edu
 rutgers.com
 nothinghere.com
 amazon.org
+bs.com
+newaddtion.shouldbefound

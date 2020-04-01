@@ -35,7 +35,7 @@ def client():
         line = line.lower()
         print("Sent: " + line)
         clientSocket.sendall(line.encode('utf-8'))
-        time.sleep(10) 
+        time.sleep(2) 
         lsResponse = clientSocket.recv(1024).decode('utf-8')
         dataStore.append(lsResponse)
         print("The received response is: " + lsResponse)
