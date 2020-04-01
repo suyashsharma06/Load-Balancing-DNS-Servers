@@ -32,37 +32,50 @@ def loadBalancer():
         print("Socket Open Error: " + err)
 
     ts1Binding = (ts1Hostname, ts1PORT)
-    ts2Binding = (ts2Binding, ts2PORT)
+    ts2Binding = (ts2Hostname, ts2PORT)
 
     ts1Socket.connect(ts1Binding)
+    # ts1Socket.sendall("Hello from LS".encode('utf-8'))
     ts2Socket.connect(ts2Binding)
+    # ts2Socket.sendall("Hello from LS".encode('utf-8'))
+
+    lsBinding = ('', lsPORT)
+    lsSocket.bind(lsBinding)
+    lsSocket.listen(5)
 
     ts1Socket.settimeout(5)
     ts2Socket.settimeout(5)
 
-    clientConnection, address = lsSocket.accept()
-    print("Got a connection request from: " + address)
+    clientSocket, address = lsSocket.accept()
+    print('Got a connection request from: ' , address)
 
     while True:
-        data = clientConnection.recv(1024).decode('utf-8').stript()
-        print("received from client: " + data)
+        data = clientSocket.recv(1024).decode('utf-8').strip()
         if not data:
             break
+        print("Received from client: " + data)
         
+        ts1Socket.sendall(data.encode('utf-8'))
+        ts2Socket.sendall(data.encode('utf-8'))
+
         try:
-            ts1Socket.sendall(data.encode('utf-8'))
-            ts2Socket.sendall(data.encode('utf-8'))
             dataTS1 = ts1Socket.recv(1024).decode('utf-8')
-            dataTS2 = ts2Socket.recv(1024).decode('utf-8')
+            print("Data from TS1: " + dataTS1)
+            clientSocket.sendall(dataTS1.encode('utf-8'))
         except socket.timeout:
-            print("We got timeout error.")
+            print("No Response from TS 1, trying TS 2.")
+            try:
+                dataTS2 = ts2Socket.recv(1024).decode('utf-8')
+                print("Data from TS2: " + dataTS2)
+                clientSocket.sendall(dataTS2.encode('utf-8'))
+            except socket.timeout:
+                print("No Response from TS 2. Responding with Error.")
+                clientSocket.sendall(data + " - Error:HOST NOT FOUND".encode('utf-8'))      
 
-        lsSocket.sendall(errorString.encode('utf-8'))
 
-    clientConnection.close()
+    lsSocket.close()
     ts1Socket.close()
     ts2Socket.close()
-    lsSocket.close()
     exit()
 
 t1 = threading.Thread(name='loadBalancer', target=loadBalancer)

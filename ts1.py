@@ -28,27 +28,29 @@ def topServer():
     # Creating socket and making all the necessary connections.
 
     topSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print("top Socket 1 has been created.")
     portBinding = ('', tsPORT)
     topSocket.bind(portBinding)
     topSocket.listen(5)
     hostName = socket.gethostname()
     ipAddress = socket.gethostbyname(hostName)
-    print("Socket Creation on Top Server 1 is now complete.", ipAddress)
+    
+    print("TS1 is running on Hostname: " + hostName)
+    print("TS1 is running on IP Address: " + ipAddress)
 
     clientSocket, address = topSocket.accept()
-    print("got a connection request from ", address)
+    print('Got a connection request from: ' , address)
     
     while True:
         data = clientSocket.recv(1024).decode('utf-8').strip()
-        print("Received " + data + " from Client.")
+        print("Message Received: " + data)
         if not data:
             break
         if data in dictionary:
+            print("Data in dictionary.")
             res = dictionary.get(data)
             clientSocket.sendall(res.encode('utf-8'))
         else:
-            break
+            print("Data not in dictionary.")
 
     clientSocket.close()
     topSocket.close()

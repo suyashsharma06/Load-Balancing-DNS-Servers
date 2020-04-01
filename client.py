@@ -26,27 +26,21 @@ def client():
     serverBinding = (hostname, lsPORT)
     clientSocket.connect(serverBinding)
 
-    file = open("PROJI-HNS.txt", "r")
+    file = open("PROJ2-HNS.txt", "r")
     failSwitch = True
+    errorString = " - Error:HOST NOT FOUND"
 
     for line in file:
         originalLine = line
         line = line.lower()
+        print("Sent: " + line)
         clientSocket.sendall(line.encode('utf-8'))
-        print("Waiting 5 seconds")
-        time.sleep(5) # Make the client wait for a message from the Root Server.
-        print("5 minute wait is complete, check whether we received a response or not.")
+        time.sleep(10) 
         lsResponse = clientSocket.recv(1024).decode('utf-8')
-        print("The response from the DNS, if any, is: " + lsResponse)
-
-        if lsResponse == "": # if not lsResponse:
-            dataStore.append(originalLine + " - Error:HOST NOT FOUND")
-            continue
-        
         dataStore.append(lsResponse)
+        print("The received response is: " + lsResponse)
 
     file.close()
-
     clientSocket.close()
 
     # At the end, write all the data from Data Store to the RESOLVED.txt.
