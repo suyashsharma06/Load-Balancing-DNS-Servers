@@ -46,11 +46,11 @@ def topServer():
         if not data:
             break
         if data in dictionary:
-            print("Data in dictionary.")
+            print(data + " in dictionary.")
             res = dictionary.get(data)
             clientSocket.sendall(res.encode('utf-8'))
         else:
-            print("Data not in dictionary.")
+            print(data + " not in dictionary.")
             
     clientSocket.close()
     topSocket.close()
